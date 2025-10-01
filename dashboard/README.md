@@ -2,7 +2,7 @@
 
 Este es un dashboard de administración para el sistema Diabetes Tracker, construido con Next.js, React y Tailwind CSS.
 
-**Última actualización**: Enero 2025 - Deploy automático configurado ✅
+**Última actualización**: Enero 2025 - Deploy automático configurado ✅ - Monorepo configurado
 
 ## Características
 
