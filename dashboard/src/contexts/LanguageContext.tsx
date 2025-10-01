@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useState, useContext, useEffect, ReactNode } from 'react'
+import { createContext, useState, useContext, ReactNode } from 'react'
 import { Language, translations } from '@/lib/translations'
 
 interface LanguageContextType {
@@ -15,18 +15,12 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   // Inicializar con el idioma por defecto
   const [language, setLanguage] = useState<Language>('es')
 
-  // Cargar idioma desde localStorage al inicializar
-  useEffect(() => {
-    const savedLanguage = localStorage.getItem('language') as Language
-    if (savedLanguage && (savedLanguage === 'es' || savedLanguage === 'en')) {
-      setLanguage(savedLanguage)
-    }
-  }, [])
-
   // Guardar idioma en localStorage cuando cambie
   const handleSetLanguage = (newLanguage: Language) => {
     setLanguage(newLanguage)
-    localStorage.setItem('language', newLanguage)
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('language', newLanguage)
+    }
   }
 
   const t = translations[language]
