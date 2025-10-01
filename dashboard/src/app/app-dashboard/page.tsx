@@ -1,5 +1,8 @@
 'use client'
 
+// Deshabilitar generación estática para esta página
+export const dynamic = 'force-dynamic'
+
 import { useState, useEffect } from 'react'
 import { useAppAuth } from '@/contexts/AppAuthContext'
 import AppProtectedRoute from '@/components/AppProtectedRoute'

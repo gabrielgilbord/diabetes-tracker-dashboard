@@ -1,5 +1,8 @@
 'use client'
 
+// Deshabilitar generación estática para esta página
+export const dynamic = 'force-dynamic'
+
 import { useState, useEffect, useCallback } from 'react'
 import { supabase, User, InsulinData, FoodData, ExerciseData, PeriodRecord, MoodData } from '@/lib/supabase'
 import { Users, Activity, TrendingUp, AlertTriangle, Heart, Calendar, User as UserIcon, Filter, Pill, Utensils, Dumbbell, CalendarDays, Smile, Clock, BarChart3, PieChart as PieChartIcon, LineChart as LineChartIcon, Database, Shield, Zap, Target } from 'lucide-react'

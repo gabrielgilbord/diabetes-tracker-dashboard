@@ -1,5 +1,8 @@
 'use client'
 
+// Deshabilitar generación estática para esta página
+export const dynamic = 'force-dynamic'
+
 import { useState, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { Heart, Users, Calendar, Filter, Download, RefreshCw, TrendingUp, Activity, ChevronDown, Check, ChevronLeft, ChevronRight } from 'lucide-react'
