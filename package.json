@@ -1,21 +1,17 @@
 {
-  "name": "diabetes_tracker",
+  "name": "diabetes-tracker-monorepo",
   "version": "1.0.0",
-  "description": "Backend Node.js para la app Diabetes Tracker",
-  "main": "server.js",
+  "description": "Diabetes Tracker - Monorepo con Dashboard Next.js",
   "scripts": {
-    "start": "node server.js"
+    "build": "cd dashboard && npm run build",
+    "dev": "cd dashboard && npm run dev",
+    "start": "cd dashboard && npm start",
+    "install": "cd dashboard && npm install"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@supabase/supabase-js": "^2.54.0",
-    "bcryptjs": "^3.0.2",
-    "body-parser": "^2.2.0",
-    "cors": "^2.8.5",
-    "dotenv": "^16.5.0",
-    "express": "^5.1.0",
-    "jsonwebtoken": "^9.0.2"
+  "workspaces": [
+    "dashboard"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
