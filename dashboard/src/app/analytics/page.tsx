@@ -2,8 +2,8 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { supabase, User, InsulinData, FoodData, ExerciseData, PeriodRecord, MoodData } from '@/lib/supabase'
-import { TrendingUp, TrendingDown, Activity, Heart, Calendar, User as UserIcon, Filter, Pill, Utensils, Dumbbell, CalendarDays, Smile, Clock, BarChart3, PieChart as PieChartIcon, LineChart as LineChartIcon } from 'lucide-react'
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart as RechartsPieChart, Pie, Cell, AreaChart, Area } from 'recharts'
+import { TrendingUp, TrendingDown, Activity, Heart, Calendar, User as UserIcon, Filter, Pill, Utensils, Dumbbell, CalendarDays, Smile, Clock, BarChart3, PieChart as PieChartIcon, TrendingUp as LineChartIcon } from 'lucide-react'
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell, AreaChart, Area } from 'recharts'
 import HybridProtectedRoute from '@/components/HybridProtectedRoute'
 import HybridNavigation from '@/components/HybridNavigation'
 import { useLanguage } from '@/contexts/LanguageContext'
@@ -477,7 +477,7 @@ export default function AnalyticsPage() {
                         <strong className="text-blue-600"> Cada sector:</strong> Porcentaje de uso de cada tipo
                       </p>
                       <ResponsiveContainer width="100%" height={300}>
-                        <RechartsPieChart>
+                        <PieChart>
                           <Pie
                             data={insulinByType}
                             cx="50%"
@@ -508,7 +508,7 @@ export default function AnalyticsPage() {
                             ]}
                             labelFormatter={(label) => `Tipo: ${label}`}
                           />
-                        </RechartsPieChart>
+                        </PieChart>
                       </ResponsiveContainer>
                     </div>
                   </div>
@@ -641,7 +641,7 @@ export default function AnalyticsPage() {
                         <strong className="text-pink-600"> Cada sector:</strong> Porcentaje de registros con ese nivel
                       </p>
                       <ResponsiveContainer width="100%" height={300}>
-                        <RechartsPieChart>
+                        <PieChart>
                           <Pie
                             data={moodByValue}
                             cx="50%"
@@ -672,7 +672,7 @@ export default function AnalyticsPage() {
                             ]}
                             labelFormatter={(label) => `Nivel: ${label}/10`}
                           />
-                        </RechartsPieChart>
+                        </PieChart>
                       </ResponsiveContainer>
                     </div>
                   </div>
