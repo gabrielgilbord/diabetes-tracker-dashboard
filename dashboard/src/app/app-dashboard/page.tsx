@@ -1,8 +1,5 @@
 'use client'
 
-// Deshabilitar generación estática para esta página
-export const dynamic = 'force-dynamic'
-
 import { useState, useEffect } from 'react'
 import { useAppAuth } from '@/contexts/AppAuthContext'
 import AppProtectedRoute from '@/components/AppProtectedRoute'
@@ -28,6 +25,9 @@ import {
 import Link from 'next/link'
 import { useLanguage } from '@/contexts/LanguageContext'
 import LanguageSelector from '@/components/LanguageSelector'
+
+// Deshabilitar generación estática para esta página
+export const dynamic = 'force-dynamic'
 
 export default function AppDashboardPage() {
   const { t } = useLanguage()

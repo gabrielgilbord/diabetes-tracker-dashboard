@@ -1,8 +1,5 @@
 'use client'
 
-// Deshabilitar generación estática para esta página
-export const dynamic = 'force-dynamic'
-
 import { useState, useEffect, useCallback } from 'react'
 import { supabase, User, InsulinData, FoodData, ExerciseData, PeriodRecord, MoodData } from '@/lib/supabase'
 import { TrendingUp, TrendingDown, Activity, Heart, Calendar, User as UserIcon, Filter, Pill, Utensils, Dumbbell, CalendarDays, Smile, Clock, BarChart3, PieChart as PieChartIcon, TrendingUp as LineChartIcon } from 'lucide-react'
@@ -11,6 +8,9 @@ import HybridProtectedRoute from '@/components/HybridProtectedRoute'
 import HybridNavigation from '@/components/HybridNavigation'
 import { useLanguage } from '@/contexts/LanguageContext'
 import LanguageSelector from '@/components/LanguageSelector'
+
+// Deshabilitar generación estática para esta página
+export const dynamic = 'force-dynamic'
 
 export default function AnalyticsPage() {
   const { t } = useLanguage()
