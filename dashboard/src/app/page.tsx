@@ -21,7 +21,6 @@ export default function DashboardPage() {
     accuracy: 0,
     systemStatus: 100
   })
-  const [loading, setLoading] = useState(true)
 
   // Componente de loading con puntos animados
   const LoadingDots = () => (
