@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useState, useContext, ReactNode } from 'react'
+import { createContext, useContext, ReactNode } from 'react'
 import { Language, translations } from '@/lib/translations'
 
 interface LanguageContextType {
@@ -12,21 +12,18 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  // Inicializar con el idioma por defecto
-  const [language, setLanguage] = useState<Language>('es')
+  // Valores por defecto estáticos
+  const language: Language = 'es'
+  const t = translations.es
 
-  // Guardar idioma en localStorage cuando cambie
-  const handleSetLanguage = (newLanguage: Language) => {
-    setLanguage(newLanguage)
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('language', newLanguage)
-    }
+  // Función simple para cambiar idioma
+  const setLanguage = (newLanguage: Language) => {
+    // Por ahora solo log, sin persistencia
+    console.log('Language changed to:', newLanguage)
   }
 
-  const t = translations[language]
-
   return (
-    <LanguageContext.Provider value={{ language, setLanguage: handleSetLanguage, t }}>
+    <LanguageContext.Provider value={{ language, setLanguage, t }}>
       {children}
     </LanguageContext.Provider>
   )
