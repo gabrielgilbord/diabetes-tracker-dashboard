@@ -3,11 +3,8 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Heart, Shield, Zap, Users, Activity, BarChart3 } from 'lucide-react'
-import { useLanguage } from '@/contexts/LanguageContext'
-import LanguageSelector from '@/components/LanguageSelector'
 
 export default function LoginPage() {
-  const { t } = useLanguage()
   const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -48,12 +45,6 @@ export default function LoginPage() {
         <div className="absolute top-40 left-1/2 w-80 h-80 bg-purple-400 rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-pulse delay-500"></div>
       </div>
 
-      {/* Selector de idioma */}
-      <div className="absolute top-6 right-6 z-50">
-        <div className="bg-white/90 backdrop-blur-xl border border-white/30 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
-          <LanguageSelector />
-        </div>
-      </div>
 
       <div className="relative z-10 flex items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
@@ -63,10 +54,10 @@ export default function LoginPage() {
               <Heart className="h-10 w-10 text-white" />
             </div>
             <h2 className="mt-6 text-4xl font-bold bg-gradient-to-r from-blue-800 via-blue-600 to-blue-400 bg-clip-text text-transparent">
-              {t.login.title || 'Diabetes Tracker'}
+              Diabetes Tracker
             </h2>
             <p className="mt-2 text-lg text-gray-600">
-              {t.login.subtitle || 'Dashboard de Administración'}
+              Dashboard de Administración
             </p>
           </div>
 
@@ -75,7 +66,7 @@ export default function LoginPage() {
             <form className="space-y-6" onSubmit={handleLogin}>
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                  {t.login.email || 'Email'}
+                  Email
                 </label>
                 <input
                   id="email"
@@ -92,7 +83,7 @@ export default function LoginPage() {
 
               <div>
                 <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-                  {t.login.password || 'Contraseña'}
+                  Contraseña
                 </label>
                 <input
                   id="password"
