@@ -3,6 +3,9 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   
+  // Deshabilitar generación estática completamente
+  output: 'standalone',
+  
   // Deshabilitar ESLint durante el build para evitar errores
   eslint: {
     ignoreDuringBuilds: true,
@@ -11,6 +14,11 @@ const nextConfig: NextConfig = {
   // Deshabilitar TypeScript durante el build para evitar errores
   typescript: {
     ignoreBuildErrors: true,
+  },
+  
+  // Forzar renderizado dinámico para todas las páginas
+  experimental: {
+    dynamicIO: true,
   },
   
   // Configuración de seguridad
