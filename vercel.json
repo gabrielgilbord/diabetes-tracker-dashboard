@@ -1,7 +1,3 @@
 {
-  "buildCommand": "npm run build --prefix dashboard",
-  "outputDirectory": "dashboard/.next",
-  "framework": "nextjs",
-  "installCommand": "npm install --prefix dashboard",
   "ignoreCommand": "exit 1"
 }
