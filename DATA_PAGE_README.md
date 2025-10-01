@@ -1,6 +1,6 @@
 # 📊 Página de Datos de Usuarios - Mejoras Implementadas
 
-## 🎯 Características Principales
+## 🎯 Características Principales 
 
 ### 1. **Interfaz Visual Mejorada**
 - **Vista de Tarjetas Expandibles**: Presentación visual organizada por usuario con tarjetas informativas
