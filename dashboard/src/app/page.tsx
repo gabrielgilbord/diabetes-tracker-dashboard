@@ -1,9 +1,9 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Users, Activity, BarChart3, Home, Heart, Sparkles, Zap, Shield, TrendingUp, Brain, Settings } from 'lucide-react'
-import ProtectedRoute from '@/components/ProtectedRoute'
 import RoleGuard from '@/components/RoleGuard'
 import Navigation from '@/components/Navigation'
 import { useLanguage } from '@/contexts/LanguageContext'
@@ -11,6 +11,9 @@ import LanguageSelector from '@/components/LanguageSelector'
 
 export default function DashboardPage() {
   const { t } = useLanguage()
+  const router = useRouter()
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [stats, setStats] = useState({
     users: 0,
     records: 0,
@@ -30,8 +33,20 @@ export default function DashboardPage() {
   )
 
   useEffect(() => {
-    loadDashboardStats()
-  }, [])
+    // Verificar autenticación
+    const checkAuth = () => {
+      const auth = localStorage.getItem('isAuthenticated')
+      if (auth === 'true') {
+        setIsAuthenticated(true)
+        loadDashboardStats()
+      } else {
+        router.push('/login')
+      }
+      setLoading(false)
+    }
+
+    checkAuth()
+  }, [router])
 
   const loadDashboardStats = async () => {
     try {
@@ -81,8 +96,24 @@ export default function DashboardPage() {
     }
   }
 
+  // Mostrar loading mientras verifica autenticación
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Verificando autenticación...</p>
+        </div>
+      </div>
+    )
+  }
+
+  // Si no está autenticado, no mostrar nada (ya redirigió)
+  if (!isAuthenticated) {
+    return null
+  }
+
   return (
-    <ProtectedRoute>
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 relative overflow-hidden" style={{ colorScheme: 'light' }}>
         {/* Elementos decorativos de fondo */}
         <div className="absolute inset-0 overflow-hidden">
@@ -396,6 +427,5 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
-    </ProtectedRoute>
   )
 }
