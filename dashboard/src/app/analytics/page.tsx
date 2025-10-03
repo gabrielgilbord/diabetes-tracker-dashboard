@@ -1,5 +1,8 @@
 'use client'
 
+// Deshabilitar generación estática para esta página
+export const dynamic = 'force-dynamic'
+
 import { useState, useEffect, useCallback } from 'react'
 import { supabase, User, InsulinData, FoodData, ExerciseData, PeriodRecord, MoodData } from '@/lib/supabase'
 import { TrendingUp, TrendingDown, Activity, Heart, Calendar, User as UserIcon, Filter, Pill, Utensils, Dumbbell, CalendarDays, Smile, Clock, BarChart3, PieChart as PieChartIcon, TrendingUp as LineChartIcon } from 'lucide-react'
@@ -8,9 +11,6 @@ import HybridProtectedRoute from '@/components/HybridProtectedRoute'
 import HybridNavigation from '@/components/HybridNavigation'
 import { useLanguage } from '@/contexts/LanguageContext'
 import LanguageSelector from '@/components/LanguageSelector'
-
-// Deshabilitar generación estática para esta página
-export const dynamic = 'force-dynamic'
 
 export default function AnalyticsPage() {
   const { t } = useLanguage()
@@ -437,7 +437,7 @@ export default function AnalyticsPage() {
                     <div className="p-2 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg mr-3">
                       <LineChartIcon className="h-5 w-5 text-white" />
                     </div>
-                    Actividad General por Fecha
+                    {t.analytics.generalActivityByDate}
                   </h3>
                   <ResponsiveContainer width="100%" height={400}>
                     <AreaChart data={activityData}>
@@ -473,7 +473,7 @@ export default function AnalyticsPage() {
                         <div className="p-2 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg mr-3">
                           <Pill className="h-5 w-5 text-white" />
                         </div>
-                        Tipos de Insulina Utilizados
+                        {t.analytics.insulinTypesUsed}
                       </h3>
                       <p className="text-sm text-slate-600 mb-6">
                         Muestra qué tipos de insulina se usan más frecuentemente. 
@@ -506,10 +506,10 @@ export default function AnalyticsPage() {
                             itemStyle={{ color: '#1e293b' }}
                             labelStyle={{ color: '#1e293b' }}
                             formatter={(value, name) => [
-                              `${value} inyecciones`, 
-                              'Tipo de Insulina'
+                              `${value} ${t.analytics.injections}`, 
+                              t.analytics.insulinType
                             ]}
-                            labelFormatter={(label) => `Tipo: ${label}`}
+                            labelFormatter={(label) => `${t.analytics.type}: ${label}`}
                           />
                         </PieChart>
                       </ResponsiveContainer>
@@ -527,7 +527,7 @@ export default function AnalyticsPage() {
                         <div className="p-2 bg-gradient-to-br from-green-500 to-green-600 rounded-lg mr-3">
                           <Utensils className="h-5 w-5 text-white" />
                         </div>
-                        Tipos de Comida Registrados
+                        {t.analytics.registeredMealTypes}
                       </h3>
                       <p className="text-sm text-slate-600 mb-6">
                         Muestra qué tipos de comida se registran más frecuentemente. 
@@ -583,7 +583,7 @@ export default function AnalyticsPage() {
                         <div className="p-2 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg mr-3">
                           <Pill className="h-5 w-5 text-white" />
                         </div>
-                        Promedio de Dosis de Insulina por Día
+                        {t.analytics.averageInsulinDose}
                       </h3>
                       <p className="text-sm text-slate-600 mb-6">
                         Muestra la cantidad promedio de insulina administrada cada día. 
@@ -618,7 +618,7 @@ export default function AnalyticsPage() {
                               `${value} inyecciones`, 
                               'Cantidad'
                             ]}
-                            labelFormatter={(label) => `Fecha: ${label}`}
+                            labelFormatter={(label) => `${t.analytics.date}: ${label}`}
                           />
                           <Bar dataKey="count" fill="#3B82F6" name="Inyecciones de Insulina" />
                         </BarChart>
@@ -637,7 +637,7 @@ export default function AnalyticsPage() {
                         <div className="p-2 bg-gradient-to-br from-pink-500 to-pink-600 rounded-lg mr-3">
                           <Smile className="h-5 w-5 text-white" />
                         </div>
-                        Distribución de Estado de Ánimo
+                        {t.analytics.moodDistribution}
                       </h3>
                       <p className="text-sm text-slate-600 mb-6">
                         Muestra qué tan frecuente es cada nivel de estado de ánimo (0=Muy triste, 10=Muy feliz). 
@@ -670,10 +670,10 @@ export default function AnalyticsPage() {
                             itemStyle={{ color: '#1e293b' }}
                             labelStyle={{ color: '#1e293b' }}
                             formatter={(value, name) => [
-                              `${value} registros`, 
-                              'Estado de Ánimo'
+                              `${value} ${t.analytics.records}`, 
+                              t.analytics.mood
                             ]}
-                            labelFormatter={(label) => `Nivel: ${label}/10`}
+                            labelFormatter={(label) => `${t.analytics.level}: ${label}/10`}
                           />
                         </PieChart>
                       </ResponsiveContainer>
@@ -694,7 +694,7 @@ export default function AnalyticsPage() {
                         <div className="p-2 bg-gradient-to-br from-blue-500 to-green-600 rounded-lg mr-3">
                           <TrendingUp className="h-5 w-5 text-white" />
                         </div>
-                        Evolución de Registros de Insulina
+                        {t.analytics.insulinEvolution}
                       </h3>
                       <p className="text-sm text-slate-600 mb-6">
                         Muestra cuántas inyecciones de insulina se registraron cada día. 
@@ -726,12 +726,12 @@ export default function AnalyticsPage() {
                             itemStyle={{ color: '#1e293b' }}
                             labelStyle={{ color: '#1e293b' }}
                             formatter={(value, name) => [
-                              `${value} inyecciones`, 
-                              'Insulina'
+                              `${value} ${t.analytics.injections}`, 
+                              t.analytics.insulin
                             ]}
-                            labelFormatter={(label) => `Fecha: ${label}`}
+                            labelFormatter={(label) => `${t.analytics.date}: ${label}`}
                           />
-                          <Line type="monotone" dataKey="count" stroke="#3B82F6" strokeWidth={2} name="Inyecciones de Insulina" />
+                          <Line type="monotone" dataKey="count" stroke="#3B82F6" strokeWidth={2} name={t.analytics.insulinInjections} />
                         </LineChart>
                       </ResponsiveContainer>
                     </div>
@@ -748,7 +748,7 @@ export default function AnalyticsPage() {
                         <div className="p-2 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg mr-3">
                           <Activity className="h-5 w-5 text-white" />
                         </div>
-                        Evolución de Registros de Comidas
+                        {t.analytics.mealEvolution}
                       </h3>
                       <p className="text-sm text-slate-600 mb-6">
                         Muestra cuántas comidas se registraron cada día. 
@@ -767,7 +767,7 @@ export default function AnalyticsPage() {
                           <YAxis 
                             stroke="#9CA3AF" 
                             tick={{ fontSize: 12, fill: '#9CA3AF' }}
-                            label={{ value: 'Número de Comidas', angle: -90, position: 'insideLeft', style: { textAnchor: 'middle', fill: '#9CA3AF' } }}
+                            label={{ value: t.analytics.numberOfMeals, angle: -90, position: 'insideLeft', style: { textAnchor: 'middle', fill: '#9CA3AF' } }}
                           />
                           <Tooltip 
                             contentStyle={{
@@ -780,12 +780,12 @@ export default function AnalyticsPage() {
                             itemStyle={{ color: '#1e293b' }}
                             labelStyle={{ color: '#1e293b' }}
                             formatter={(value, name) => [
-                              `${value} comidas`, 
-                              'Registros'
+                              `${value} ${t.analytics.meals}`, 
+                              t.analytics.records
                             ]}
-                            labelFormatter={(label) => `Fecha: ${label}`}
+                            labelFormatter={(label) => `${t.analytics.date}: ${label}`}
                           />
-                          <Line type="monotone" dataKey="count" stroke="#10B981" strokeWidth={2} name="Comidas Registradas" />
+                          <Line type="monotone" dataKey="count" stroke="#10B981" strokeWidth={2} name={t.analytics.registeredMeals} />
                         </LineChart>
                       </ResponsiveContainer>
                     </div>
@@ -802,7 +802,7 @@ export default function AnalyticsPage() {
                         <div className="p-2 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg mr-3">
                           <Dumbbell className="h-5 w-5 text-white" />
                         </div>
-                        Evolución de Registros de Ejercicio
+                        {t.analytics.exerciseEvolution}
                       </h3>
                       <p className="text-sm text-slate-600 mb-6">
                         Muestra cuántas sesiones de ejercicio se registraron cada día. 
@@ -834,12 +834,12 @@ export default function AnalyticsPage() {
                             itemStyle={{ color: '#1e293b' }}
                             labelStyle={{ color: '#1e293b' }}
                             formatter={(value, name) => [
-                              `${value} sesiones`, 
-                              'Ejercicio'
+                              `${value} ${t.analytics.sessions}`, 
+                              t.analytics.exercise
                             ]}
-                            labelFormatter={(label) => `Fecha: ${label}`}
+                            labelFormatter={(label) => `${t.analytics.date}: ${label}`}
                           />
-                          <Line type="monotone" dataKey="count" stroke="#F59E0B" strokeWidth={2} name="Sesiones de Ejercicio" />
+                          <Line type="monotone" dataKey="count" stroke="#F59E0B" strokeWidth={2} name={t.analytics.exerciseSessions} />
                         </LineChart>
                       </ResponsiveContainer>
                     </div>
@@ -856,7 +856,7 @@ export default function AnalyticsPage() {
                         <div className="p-2 bg-gradient-to-br from-pink-500 to-pink-600 rounded-lg mr-3">
                           <Heart className="h-5 w-5 text-white" />
                         </div>
-                        Evolución de Registros de Estado de Ánimo
+                        {t.analytics.moodEvolution}
                       </h3>
                       <p className="text-sm text-slate-600 mb-6">
                         Muestra cuántos registros de estado de ánimo se hicieron cada día. 
@@ -888,12 +888,12 @@ export default function AnalyticsPage() {
                             itemStyle={{ color: '#1e293b' }}
                             labelStyle={{ color: '#1e293b' }}
                             formatter={(value, name) => [
-                              `${value} registros`, 
-                              'Estado de Ánimo'
+                              `${value} ${t.analytics.records}`, 
+                              t.analytics.mood
                             ]}
-                            labelFormatter={(label) => `Fecha: ${label}`}
+                            labelFormatter={(label) => `${t.analytics.date}: ${label}`}
                           />
-                          <Line type="monotone" dataKey="count" stroke="#EC4899" strokeWidth={2} name="Registros de Estado de Ánimo" />
+                          <Line type="monotone" dataKey="count" stroke="#EC4899" strokeWidth={2} name={t.analytics.moodRecords} />
                         </LineChart>
                       </ResponsiveContainer>
                     </div>
