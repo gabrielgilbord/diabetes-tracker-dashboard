@@ -2,7 +2,7 @@
 
 ## 🎯 Características Principales
 
-### 1. **Interfaz Visual Mejorada**
+### 1. **Interfaz Visual Mejorada** 
 - **Vista de Tarjetas Expandibles**: Presentación visual organizada por usuario con tarjetas informativas
 - **Expansión de Usuarios**: Click para expandir y ver todos los datos de cada usuario
 - **Estadísticas en Tiempo Real**: Métricas clave mostradas en tarjetas destacadas
