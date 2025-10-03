@@ -80,8 +80,10 @@ export function AppAuthProvider({ children }: { children: React.ReactNode }) {
       setUser(appUser)
       setUserRole(appUser.role)
       
-      // Guardar en localStorage para persistencia
-      localStorage.setItem('app_user', JSON.stringify(appUser))
+      // Guardar en localStorage para persistencia (solo en el cliente)
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('app_user', JSON.stringify(appUser))
+      }
       
       console.log('✅ Usuario autenticado exitosamente:', appUser.Username, 'Rol:', appUser.role)
       
@@ -97,14 +99,22 @@ export function AppAuthProvider({ children }: { children: React.ReactNode }) {
   const signOut = async () => {
     setUser(null)
     setUserRole(null)
-    localStorage.removeItem('app_user')
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('app_user')
+    }
     console.log('🚪 Usuario cerró sesión')
   }
 
-  // Verificar si hay una sesión guardada
+  // Verificar si hay una sesión guardada (solo en el cliente)
   useEffect(() => {
     const checkStoredUser = () => {
       try {
+        // Verificar que estamos en el cliente
+        if (typeof window === 'undefined') {
+          setLoading(false)
+          return
+        }
+        
         const storedUser = localStorage.getItem('app_user')
         if (storedUser) {
           const appUser = JSON.parse(storedUser) as AppUser
@@ -114,7 +124,9 @@ export function AppAuthProvider({ children }: { children: React.ReactNode }) {
         }
       } catch (error) {
         console.error('Error restoring user:', error)
-        localStorage.removeItem('app_user')
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('app_user')
+        }
       } finally {
         setLoading(false)
       }

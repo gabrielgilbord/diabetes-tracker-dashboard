@@ -1,5 +1,8 @@
 'use client'
 
+// Deshabilitar generación estática para esta página
+export const dynamic = 'force-dynamic'
+
 import { useState, useEffect } from 'react'
 import { useAppAuth } from '@/contexts/AppAuthContext'
 import AppProtectedRoute from '@/components/AppProtectedRoute'
@@ -26,9 +29,6 @@ import Link from 'next/link'
 import { useLanguage } from '@/contexts/LanguageContext'
 import LanguageSelector from '@/components/LanguageSelector'
 
-// Deshabilitar generación estática para esta página
-export const dynamic = 'force-dynamic'
-
 export default function AppDashboardPage() {
   const { t } = useLanguage()
   const { user, userRole, signOut } = useAppAuth()
@@ -48,22 +48,38 @@ export default function AppDashboardPage() {
     try {
       setLoading(true)
       
-      // Cargar estadísticas reales
-      const [usersResponse, dataResponse] = await Promise.all([
-        fetch('/api/users/count'),
-        fetch('/api/decrypted-data')
-      ])
-      
-      const usersData = await usersResponse.json()
-      const dataData = await dataResponse.json()
+      let userCount = 0
+      let totalRecords = 0
+
+      // Cargar estadísticas de usuarios con manejo de errores
+      try {
+        const usersResponse = await fetch('/api/users/count')
+        if (usersResponse.ok) {
+          const usersData = await usersResponse.json()
+          userCount = usersData?.count || 0
+        }
+      } catch (error) {
+        console.warn('Error loading user count:', error)
+      }
+
+      // Cargar estadísticas de datos con manejo de errores
+      try {
+        const dataResponse = await fetch('/api/decrypted-data')
+        if (dataResponse.ok) {
+          const dataData = await dataResponse.json()
+          totalRecords = (dataData?.insulinData?.length || 0) + 
+                        (dataData?.foodData?.length || 0) + 
+                        (dataData?.exerciseData?.length || 0) + 
+                        (dataData?.moodData?.length || 0) + 
+                        (dataData?.periodData?.length || 0)
+        }
+      } catch (error) {
+        console.warn('Error loading data stats:', error)
+      }
       
       setStats({
-        users: usersData.count || 0,
-        totalRecords: (dataData?.insulinData?.length || 0) + 
-                     (dataData?.foodData?.length || 0) + 
-                     (dataData?.exerciseData?.length || 0) + 
-                     (dataData?.moodData?.length || 0) + 
-                     (dataData?.periodData?.length || 0),
+        users: userCount,
+        totalRecords: totalRecords,
         hrvUsers: 3, // Usuarios con datos HRV
         systemAccuracy: 95 // Precisión del sistema
       })
