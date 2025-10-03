@@ -1,10 +1,9 @@
 'use client'
 
-// Deshabilitar generación estática para esta página
-export const dynamic = 'force-dynamic'
-
 import { useState, useEffect } from 'react'
 import { useAppAuth } from '@/contexts/AppAuthContext'
+import AppProtectedRoute from '@/components/AppProtectedRoute'
+import AppRoleGuard from '@/components/AppRoleGuard'
 import { 
   Users, 
   BarChart3, 
@@ -120,7 +119,7 @@ export default function AppDashboardPage() {
   }
 
   return (
-    <div>
+    <AppProtectedRoute>
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 relative overflow-hidden" style={{ colorScheme: 'light' }}>
         {/* Selector de idioma */}
         <div className="absolute top-6 right-6 z-50">
@@ -440,7 +439,7 @@ export default function AppDashboardPage() {
             ) : (
               /* Para administradores y doctores: mostrar todas las opciones */
               <>
-                <div>
+                <AppRoleGuard requiredPermission="view_users">
                   <Link href="/users" className="group">
                     <div className="relative bg-white/90 backdrop-blur-xl border border-gray-200/50 rounded-3xl p-8 hover:border-blue-300/70 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-blue-500/10">
                       <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-blue-600/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -469,7 +468,7 @@ export default function AppDashboardPage() {
                       </div>
                     </div>
                   </Link>
-                </div>
+                </AppRoleGuard>
 
                 <AppRoleGuard requiredPermission="view_data">
                   <Link href="/data" className="group">
@@ -500,7 +499,7 @@ export default function AppDashboardPage() {
                       </div>
                     </div>
                   </Link>
-                </div>
+                </AppRoleGuard>
 
                 <AppRoleGuard requiredPermission="view_analytics">
                   <Link href="/analytics" className="group">
@@ -531,7 +530,7 @@ export default function AppDashboardPage() {
                       </div>
                     </div>
                   </Link>
-                </div>
+                </AppRoleGuard>
 
                 <AppRoleGuard requiredPermission="view_kubios">
                   <Link href="/kubios" className="group">
@@ -562,7 +561,7 @@ export default function AppDashboardPage() {
                       </div>
                     </div>
                   </Link>
-                </div>
+                </AppRoleGuard>
 
                 <AppRoleGuard requiredPermission="view_study">
                   <Link href="/study" className="group">
@@ -593,7 +592,7 @@ export default function AppDashboardPage() {
                       </div>
                     </div>
                   </Link>
-                </div>
+                </AppRoleGuard>
 
                 <AppRoleGuard requiredPermission="view_admin">
                   <Link href="/admin" className="group">
@@ -624,12 +623,12 @@ export default function AppDashboardPage() {
                       </div>
                     </div>
                   </Link>
-                </div>
+                </AppRoleGuard>
               </>
             )}
           </div>
         </div>
       </div>
-    </div>
+    </AppProtectedRoute>
   )
 }
