@@ -1,17 +1,22 @@
 'use client'
 
 import { useState } from 'react'
+import { useAuth } from '@/contexts/AuthContext'
 import { useRouter } from 'next/navigation'
 import { Eye, EyeOff, Lock, Mail, Activity, Heart, TrendingUp, Shield, Users, BarChart3, Zap, CheckCircle, User, LogIn } from 'lucide-react'
 import Image from 'next/image'
+import { useLanguage } from '@/contexts/LanguageContext'
+import LanguageSelector from '@/components/LanguageSelector'
 
 export default function LoginPage() {
+  const { t } = useLanguage()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [isSignUp, setIsSignUp] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const { signIn, signUp } = useAuth()
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -20,20 +25,17 @@ export default function LoginPage() {
     setError('')
 
     try {
-      // Simular login - en producción esto sería una llamada real a la API
-      if (email === 'admin@diabetes-tracker.com' && password === 'admin123') {
-        // Guardar en localStorage que está autenticado
-        localStorage.setItem('isAuthenticated', 'true')
-        localStorage.setItem('userRole', 'admin')
-        localStorage.setItem('userEmail', email)
-        
-        // Redirigir al dashboard
-        router.push('/')
+      const { error } = isSignUp 
+        ? await signUp(email, password)
+        : await signIn(email, password)
+
+      if (error) {
+        setError(error.message)
       } else {
-        setError('Credenciales incorrectas. Usa admin@diabetes-tracker.com / admin123')
+        router.push('/')
       }
-    } catch (err) {
-      setError('Error al iniciar sesión')
+    } catch {
+      setError(t.auth.unexpectedError)
     } finally {
       setLoading(false)
     }
@@ -41,6 +43,12 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex relative overflow-hidden">
+      {/* Selector de idioma mejorado */}
+      <div className="absolute top-6 right-6 z-50">
+        <div className="bg-white/90 backdrop-blur-xl border border-white/30 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+          <LanguageSelector />
+        </div>
+      </div>
       
       {/* Elementos decorativos de fondo */}
       <div className="absolute inset-0 overflow-hidden">
@@ -139,15 +147,15 @@ export default function LoginPage() {
               </div>
             </div>
             
-             <h2 className="text-4xl font-bold text-gray-900 mb-3">
-               {isSignUp ? 'Crear Cuenta' : 'Bienvenido'}
-             </h2>
-             <p className="text-gray-600 text-lg">
-               {isSignUp 
-                 ? 'Únete a nuestra plataforma de monitoreo de salud'
-                 : 'Accede al panel de administración'
-               }
-             </p>
+            <h2 className="text-4xl font-bold text-gray-900 mb-3">
+              {isSignUp ? t.auth.createAccount : t.auth.welcome}
+            </h2>
+            <p className="text-gray-600 text-lg">
+              {isSignUp 
+                ? t.auth.joinPlatform
+                : t.auth.accessAdmin
+              }
+            </p>
           </div>
 
           <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl p-10 border border-white/20 relative">
@@ -162,10 +170,10 @@ export default function LoginPage() {
                 </div>
               )}
 
-               <div className="space-y-2">
-                 <label htmlFor="email" className="block text-sm font-semibold text-gray-700">
-                   Email
-                 </label>
+              <div className="space-y-2">
+                <label htmlFor="email" className="block text-sm font-semibold text-gray-700">
+                  {t.auth.email}
+                </label>
                 <div className="relative group">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                     <Mail className="h-5 w-5 text-gray-400 group-focus-within:text-blue-500 transition-colors" />
@@ -182,10 +190,10 @@ export default function LoginPage() {
                 </div>
               </div>
 
-               <div className="space-y-2">
-                 <label htmlFor="password" className="block text-sm font-semibold text-gray-700">
-                   Contraseña
-                 </label>
+              <div className="space-y-2">
+                <label htmlFor="password" className="block text-sm font-semibold text-gray-700">
+                  {t.auth.password}
+                </label>
                 <div className="relative group">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                     <Lock className="h-5 w-5 text-gray-400 group-focus-within:text-blue-500 transition-colors" />
@@ -219,23 +227,23 @@ export default function LoginPage() {
                 className="w-full bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-600 text-white py-4 px-6 rounded-xl font-semibold text-lg hover:from-blue-700 hover:via-blue-800 hover:to-indigo-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
               >
                 {loading ? (
-                   <div className="flex items-center justify-center">
-                     <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white mr-3"></div>
-                     {isSignUp ? 'Creando cuenta...' : 'Iniciando sesión...'}
-                   </div>
+                  <div className="flex items-center justify-center">
+                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white mr-3"></div>
+                    {isSignUp ? t.auth.creatingAccount : t.auth.loggingIn}
+                  </div>
                 ) : (
                   <div className="flex items-center justify-center">
-                     {isSignUp ? (
-                       <>
-                         <LogIn className="h-5 w-5 mr-2" />
-                         Crear Cuenta
-                       </>
-                     ) : (
-                       <>
-                         <LogIn className="h-5 w-5 mr-2" />
-                         Iniciar Sesión
-                       </>
-                     )}
+                    {isSignUp ? (
+                      <>
+                        <LogIn className="h-5 w-5 mr-2" />
+                        {t.auth.createAccount}
+                      </>
+                    ) : (
+                      <>
+                        <LogIn className="h-5 w-5 mr-2" />
+                        {t.auth.signIn}
+                      </>
+                    )}
                   </div>
                 )}
               </button>
@@ -256,10 +264,10 @@ export default function LoginPage() {
                   onClick={() => setIsSignUp(!isSignUp)}
                   className="w-full text-blue-600 hover:text-blue-700 font-semibold transition-colors text-lg"
                 >
-                   {isSignUp 
-                     ? '¿Ya tienes cuenta? Inicia sesión'
-                     : '¿No tienes cuenta? Regístrate'
-                   }
+                  {isSignUp 
+                    ? '¿Ya tienes cuenta? Inicia sesión'
+                    : t.auth.noAccount
+                  }
                 </button>
                 
                 <div className="relative">
@@ -271,13 +279,13 @@ export default function LoginPage() {
                   </div>
                 </div>
                 
-                 <a
-                   href="/app-login"
-                   className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-xl text-gray-700 hover:bg-gray-50 transition-colors font-medium"
-                 >
-                   <User className="h-5 w-5 mr-2" />
-                   Acceso para Usuarios de App
-                 </a>
+                <a
+                  href="/app-login"
+                  className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-xl text-gray-700 hover:bg-gray-50 transition-colors font-medium"
+                >
+                  <User className="h-5 w-5 mr-2" />
+                  {t.auth.appUserAccess}
+                </a>
               </div>
             </div>
 

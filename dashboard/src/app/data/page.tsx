@@ -1,8 +1,5 @@
 'use client'
 
-// Deshabilitar generación estática para esta página
-export const dynamic = 'force-dynamic'
-
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { supabase, User, InsulinData, FoodData, ExerciseData, PeriodRecord, MoodData } from '@/lib/supabase'
