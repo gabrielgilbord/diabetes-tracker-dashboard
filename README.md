@@ -1,4 +1,4 @@
-# 🏥 Diabetes Tracker Dashboard
+# 🏥 Diabetes Tracker Dashboard - Vercel Deploy Fix
 
 Dashboard administrativo completo para gestionar usuarios y visualizar datos del Polar H10 en tiempo real.
 
