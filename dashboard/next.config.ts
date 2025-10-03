@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  
+
   // Deshabilitar TypeScript durante el build para evitar errores
   typescript: {
     ignoreBuildErrors: true,
