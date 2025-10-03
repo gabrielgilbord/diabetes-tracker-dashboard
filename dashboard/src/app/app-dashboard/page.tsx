@@ -12,15 +12,14 @@ import {
   Settings, 
   Database,
   Shield,
-  Stethoscope,
   User as UserIcon,
+  UserCheck,
   LogOut,
   Zap,
   Sparkles,
   Home,
   Heart,
-  TrendingUp,
-  Brain
+  TrendingUp
 } from 'lucide-react'
 import Link from 'next/link'
 import { useLanguage } from '@/contexts/LanguageContext'
@@ -105,7 +104,7 @@ export default function AppDashboardPage() {
   const getRoleIcon = (role: string) => {
     switch (role) {
       case 'admin': return <Shield className="h-4 w-4 text-yellow-500" />
-      case 'doctor': return <Stethoscope className="h-4 w-4 text-green-500" />
+      case 'doctor': return <UserCheck className="h-4 w-4 text-green-500" />
       default: return <UserIcon className="h-4 w-4 text-blue-500" />
     }
   }
@@ -178,7 +177,7 @@ export default function AppDashboardPage() {
                     <p className="font-semibold text-white">{user?.Username}</p>
                     <div className="flex items-center space-x-1">
                       {userRole === 'admin' && <Shield className="h-3 w-3 text-yellow-300" />}
-                      {userRole === 'doctor' && <Stethoscope className="h-3 w-3 text-green-300" />}
+                      {userRole === 'doctor' && <UserCheck className="h-3 w-3 text-green-300" />}
                       {userRole === 'user' && <UserIcon className="h-3 w-3 text-blue-200" />}
                       <p className="text-blue-100/80 text-xs capitalize">
                         {userRole === 'admin' && 'Administrador'}
