@@ -21,7 +21,7 @@
 - **Filtro por Tipo de Dato**: Insulina, Comidas, Ejercicio, Períodos, Estado de Ánimo
 - **Rango de Tiempo**: Último día, 7 días, 30 días, 90 días o todo el tiempo
 - **Fecha Específica**: Filtrar por una fecha particular
-- **Combinación de Filtros**: Los filtros funcionan en conjunto
+- **Combinación de Filtros**: Los filtros funcionan en  conjunto
 
 ### 4. **Visualización Completa de Registros**
 - **Vista Expandible**: Click en la flecha para expandir cada usuario
