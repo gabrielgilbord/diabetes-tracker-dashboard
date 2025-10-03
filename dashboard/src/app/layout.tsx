@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { AuthProvider } from "@/contexts/AuthContext";
+import { AppAuthProvider } from "@/contexts/AppAuthContext";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,9 +25,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es">
-      <body className={inter.className}>
-        {children}
+    <html lang="es" suppressHydrationWarning={true}>
+      <body className={inter.className} suppressHydrationWarning={true}>
+        <LanguageProvider>
+          <AuthProvider>
+            <AppAuthProvider>
+              {children}
+            </AppAuthProvider>
+          </AuthProvider>
+        </LanguageProvider>
       </body>
     </html>
   );
